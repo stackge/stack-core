@@ -16,6 +16,8 @@
   <p><strong>🌐 <a href="https://stack.ge/">https://stack.ge/</a></strong></p>
 </div>
 
+DEMO: https://dcrudms.stack.ge/
+
 ---
 
 ## 📋 სარჩევი
