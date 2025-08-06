@@ -8,9 +8,18 @@
  * @version 1.0.0
  */
 
-require_once '../config/db.php';
-require_once '../core/DatabaseManager.php';
-require_once '../core/UIHelper.php';
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+try {
+    require_once '../config/db.php';
+    require_once '../core/DatabaseManager.php';
+    require_once '../core/UIHelper.php';
+} catch (Exception $e) {
+    die("Error loading dependencies: " . $e->getMessage());
+}
 
 // Get messages from session
 $message = $_SESSION['message'] ?? '';
@@ -18,14 +27,21 @@ $messageType = $_SESSION['message_type'] ?? '';
 unset($_SESSION['message'], $_SESSION['message_type']);
 
 // Initialize Database Manager
-$dbManager = new DatabaseManager($pdo);
-
-// Get all tables with detailed info
-$tables = $dbManager->getTables();
-$tableDetails = [];
-
-foreach ($tables as $tableName) {
-    $tableDetails[] = $dbManager->getTableInfo($tableName);
+try {
+    $dbManager = new DatabaseManager($pdo);
+    
+    // Get all tables with detailed info
+    $tables = $dbManager->getTables();
+    $tableDetails = [];
+    
+    foreach ($tables as $tableName) {
+        $tableDetails[] = $dbManager->getTableInfo($tableName);
+    }
+    
+} catch (Exception $e) {
+    $_SESSION['message'] = "ერორი ცხრილების ჩატვირთვისას: " . $e->getMessage();
+    $_SESSION['message_type'] = 'danger';
+    $tableDetails = [];
 }
 
 // Sort tables by name or record count based on user preference

@@ -204,11 +204,21 @@ class UIHelper {
     public static function getNavbar($currentPage = '') {
         $config = getAppConfig();
         
+        // Get the current directory context for relative paths
+        $basePath = '';
+        if (strpos($_SERVER['REQUEST_URI'], '/public/') !== false) {
+            $basePath = '';
+        } elseif (strpos($_SERVER['REQUEST_URI'], '/views/') !== false) {
+            $basePath = '../public/';
+        } else {
+            $basePath = 'public/';
+        }
+        
         return '
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="/public/index.php">
+            <a class="navbar-brand" href="' . $basePath . 'index.php">
                 <i class="fas fa-database me-2"></i>' . $config['name'] . '
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -217,17 +227,17 @@ class UIHelper {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link' . ($currentPage === 'index' ? ' active' : '') . '" href="/public/index.php">
+                        <a class="nav-link' . ($currentPage === 'index' ? ' active' : '') . '" href="' . $basePath . 'index.php">
                             <i class="fas fa-home me-1"></i> მთავარი
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link' . ($currentPage === 'tables' ? ' active' : '') . '" href="/public/tables.php">
+                        <a class="nav-link' . ($currentPage === 'tables' ? ' active' : '') . '" href="' . $basePath . 'tables.php">
                             <i class="fas fa-table me-1"></i> ცხრილები
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link' . ($currentPage === 'create' ? ' active' : '') . '" href="/public/create.php">
+                        <a class="nav-link' . ($currentPage === 'create' ? ' active' : '') . '" href="' . $basePath . 'create.php">
                             <i class="fas fa-plus me-1"></i> ახალი ცხრილი
                         </a>
                     </li>

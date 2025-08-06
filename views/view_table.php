@@ -1,6 +1,8 @@
 <?php
 session_start();
-require 'config/db.php';
+require '../config/db.php';
+require '../core/DatabaseManager.php';
+require '../core/UIHelper.php';
 
 $message = $_SESSION['message'] ?? '';
 $messageType = $_SESSION['message_type'] ?? '';
@@ -9,7 +11,7 @@ unset($_SESSION['message'], $_SESSION['message_type']);
 $table = $_GET['table'] ?? '';
 
 if (!$table) {
-    header('Location: tables.php');
+    header('Location: ../public/tables.php');
     exit;
 }
 
@@ -91,50 +93,13 @@ if ($table) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="ka">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $table ? "ცხრილი: " . htmlspecialchars($table) : "შეცდომა" ?> - CRUD სისტემა</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .table-responsive {
-            border-radius: 0.375rem;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        }
-        .action-buttons .btn {
-            margin: 2px;
-        }
-        .search-form {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 0.375rem;
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">
-                <i class="fas fa-database"></i> CRUD სისტემა
-            </a>
-            <div class="navbar-nav">
-                <a class="nav-link" href="index.php">
-                    <i class="fas fa-home"></i> მთავარი
-                </a>
-                <a class="nav-link" href="tables.php">
-                    <i class="fas fa-table"></i> ცხრილები
-                </a>
-                <a class="nav-link" href="create.php">
-                    <i class="fas fa-plus"></i> ახალი ცხრილი
-                </a>
-            </div>
-        </div>
-    </nav>
+}
+?>
+
+<?php 
+echo UIHelper::getHeader("ცხრილი: " . htmlspecialchars($table));
+echo UIHelper::getNavbar('view_table');
+?>
 
     <div class="container-fluid my-4">
         <?php if ($message): ?>
@@ -143,8 +108,8 @@ if ($table) {
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
             <div class="text-center">
-                <a href="tables.php" class="btn btn-primary">
-                    <i class="fas fa-arrow-left"></i> ცხრილების სიაში დაბრუნება
+                                <a href="../public/tables.php" class="btn btn-primary">
+                    <i class="fas fa-arrow-left me-1"></i> ცხრილების სია
                 </a>
             </div>
         <?php else: ?>
@@ -155,7 +120,7 @@ if ($table) {
                     ცხრილი: <span class="text-primary"><?= htmlspecialchars($table) ?></span>
                 </h2>
                 <div>
-                    <a href="tables.php" class="btn btn-secondary">
+                    <a href="../public/tables.php" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> უკან
                     </a>
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addRecordModal">
@@ -542,5 +507,5 @@ if ($table) {
             }
         }
     </script>
-</body>
-</html>
+
+<?php echo UIHelper::getFooter(); ?>
