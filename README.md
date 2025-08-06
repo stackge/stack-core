@@ -8,6 +8,8 @@
   <img src="https://img.shields.io/badge/Author-Skryper-red.svg" alt="Author">
 </div>
 
+![პროექტის ეკრანის ანაბეჭდი](Screenshot.png)
+
 <div align="center">
   <h3>Dynamic CRUD Management System</h3>
   <p>პროფესიონალური დინამიური მონაცემთა ბაზის მართვის სისტემა</p>
